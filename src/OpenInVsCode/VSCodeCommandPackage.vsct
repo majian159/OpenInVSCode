@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!--  This is the file that defines the actual layout and type of the commands.
+        It is divided in different sections (e.g. command definition, command
+        placement, ...), with each defining a specific set of properties.
+        See the comment before each section for more details about how to
+        use it. -->
+
+  <!--  The VSCT compiler (the tool that translates this file into the binary
+        format that VisualStudio will consume) has the ability to run a preprocessor
+        on the vsct file; this preprocessor is (usually) the C++ preprocessor, so
+        it is possible to define includes and macros with the same syntax used
+        in C++ files. Using this ability of the compiler here, we include some files
+        defining some of the constants that we will use inside the file. -->
+
+  <!--This is the file that defines the IDs for all the commands exposed by VisualStudio. -->
+  <Extern href="stdidcmd.h" />
+
+  <!--This header contains the command ids for the menus provided by the shell. -->
+  <Extern href="vsshlids.h" />
+
+  <!--The Commands section is where commands, menus, and menu groups are defined.
+      This section uses a Guid to identify the package that provides the command defined inside it. -->
+  <Commands package="guidVSCodeCommandPackage">
+    <Bitmaps>
+      <Bitmap guid="vsCodeIcon" href="icon.ico" usedList="vsCodeIcon"/>
+    </Bitmaps>
+    <Buttons>
+      <Button guid="guidVSCodeCommandPackageCmdSet" id="OpenInVsCode" priority="0x0500" type="Button">
+        <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_FOLDER_EXPLORE" />
+        <Icon guid="vsCodeIcon" id="vsCodeIcon" />
+        <Strings>
+          <ButtonText>Open in Visual Studio Code</ButtonText>
+        </Strings>
+      </Button>
+    </Buttons>
+  </Commands>
+  <KeyBindings>
+    <KeyBinding guid="guidVSCodeCommandPackageCmdSet" id="OpenInVsCode" editor="guidVSStd97" key1="2" mod1="Alt" mod2="Alt"/>
+    <KeyBinding guid="guidVSCodeCommandPackageCmdSet" id="OpenInVsCode" editor="guidVSStd97" key1="2" mod1="Alt" />
+  </KeyBindings>
+  <CommandPlacements>
+    <CommandPlacement guid="guidVSCodeCommandPackageCmdSet" id="OpenInVsCode" priority="0x0500">
+      <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_SOLUTION_EXPLORE" />
+    </CommandPlacement>
+    <CommandPlacement guid="guidVSCodeCommandPackageCmdSet" id="OpenInVsCode" priority="0x0500">
+      <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_PROJECT_EXPLORE" />
+    </CommandPlacement>
+    <CommandPlacement guid="guidVSCodeCommandPackageCmdSet" id="OpenInVsCode" priority="0x0500">
+      <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_ITEM_OPEN" />
+    </CommandPlacement>
+    <CommandPlacement guid="guidVSCodeCommandPackageCmdSet" id="OpenInVsCode" priority="0x0500">
+      <Parent guid="guidSHLMainMenu" id="IDG_VS_CODEDEFVIEW" />
+    </CommandPlacement>
+    <CommandPlacement guid="guidVSCodeCommandPackageCmdSet" id="OpenInVsCode" priority="0x0500">
+      <Parent guid="guidSHLMainMenu" id="IDG_VS_EZ_DOCWINDOWOPS" />
+    </CommandPlacement>
+  </CommandPlacements>
+  <Symbols>
+    <!-- This is the package guid. -->
+    <GuidSymbol name="guidVSCodeCommandPackage" value="{e396c980-4586-404a-b400-ce5eaa59c8ac}" />
+
+    <!-- This is the guid used to group the menu commands together -->
+    <GuidSymbol name="guidVSCodeCommandPackageCmdSet" value="{ffddf954-b884-4200-89c9-caaef19bdf23}">
+      <IDSymbol name="OpenInVsCode" value="0x0100" />
+    </GuidSymbol>
+
+    <GuidSymbol name="vsCodeIcon" value="{fd6d06c1-31e9-4710-b10b-bd6c1b2b0a1f}">
+      <IDSymbol name="vsCodeIcon" value="1" />
+    </GuidSymbol>
+  </Symbols>
+</CommandTable>
