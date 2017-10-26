@@ -5,8 +5,8 @@
         <DisplayName>Open In Visual Studio Code</DisplayName>
         <Description xml:space="preserve">A Open In Visual Studio Code Extensions.</Description>
         <MoreInfo>https://github.com/majian159/OpenInVSCode</MoreInfo>
-        <Icon>icon.ico</Icon>
-        <PreviewImage>icon.ico</PreviewImage>
+        <Icon>icon.png</Icon>
+        <PreviewImage>icon.png</PreviewImage>
         <Tags>vscode visual studio code</Tags>
     </Metadata>
     <Installation>
