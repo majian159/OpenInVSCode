@@ -3,9 +3,11 @@ using EnvDTE80;
 using Microsoft.VisualStudio.Shell;
 using System;
 using System.ComponentModel.Design;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace OpenInVsCode
 {
@@ -103,14 +105,22 @@ namespace OpenInVsCode
 
         private void OpenVsCode(string fileName)
         {
-            var isDirectory = Directory.Exists(fileName);
-            var start = new System.Diagnostics.ProcessStartInfo
+            var vsCodePathExe = GetVSCodePathExe();
+
+            if (string.IsNullOrWhiteSpace(vsCodePathExe))
             {
-                FileName = $"\"{_options.PathToExe}\"",
+                MessageBox.Show($"Can not find the VSCode executable, please install VSCode or set the VSCode executable path in Visual Studio Menu (Tools - Options...).", "OpenInVSCode", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            var isDirectory = Directory.Exists(fileName);
+            var start = new ProcessStartInfo
+            {
+                FileName = $"\"{vsCodePathExe}\"",
                 Arguments = isDirectory ? "." : fileName,
                 CreateNoWindow = true,
                 UseShellExecute = false,
-                WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden
+                WindowStyle = ProcessWindowStyle.Hidden
             };
             if (isDirectory)
             {
@@ -140,6 +150,38 @@ namespace OpenInVsCode
                     .Append("\" ");
             }
             return builder.Remove(builder.Length - 1, 1).ToString();
+        }
+
+        private static string GetVSCodePathExe()
+        {
+            var vsCodePathExe = _options.PathToExe;
+
+            if (string.IsNullOrWhiteSpace(vsCodePathExe))
+            {
+                return GetVSCodePathExeByEnvironment();
+            }
+
+            return File.Exists(vsCodePathExe) ? vsCodePathExe : null;
+        }
+
+        private static string GetVSCodePathExeByEnvironment()
+        {
+            var pathEnvironment = Environment.GetEnvironmentVariable("Path");
+            if (string.IsNullOrWhiteSpace(pathEnvironment))
+            {
+                return null;
+            }
+
+            var pathExe = pathEnvironment.Split(';').FirstOrDefault(i => i != null && i.IndexOf(@"Microsoft VS Code\bin", StringComparison.OrdinalIgnoreCase) != -1);
+
+            if (string.IsNullOrWhiteSpace(pathExe))
+            {
+                return null;
+            }
+
+            pathExe += "\\code.cmd";
+
+            return File.Exists(pathExe) ? pathExe : null;
         }
     }
 }
